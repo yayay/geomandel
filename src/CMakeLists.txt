@@ -49,6 +49,7 @@ set (MAIN_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcruncher.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchmulti.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchsingle.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/fractalparams.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalzoom.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/printer.cpp
 )
@@ -79,6 +80,7 @@ set (HEADER_LIB
 # Add custom cmake modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
+find_package(MPFR 3.1.4 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(SFML 2.3 COMPONENTS graphics)
 
@@ -104,6 +106,11 @@ include_directories(
 
 add_executable(geomandel ${MAIN_HEADER} ${HEADER_LIB} ${MAIN_SOURCE})
 target_link_libraries(geomandel ${CMAKE_THREAD_LIBS_INIT})
+
+if (${MPFR_FOUND})
+    target_link_libraries(geomandel ${MPFR_LIBRARIES})
+endif()
+
 if (${SFML_FOUND})
     target_link_libraries(geomandel ${SFML_LIBRARIES})
 endif()

@@ -131,14 +131,14 @@ int main(int argc, char *argv[])
     prnt << "+ Fractal type '" << frac_type << "'" << std::endl;
     prnt << "+ Bailout: " << std::to_string(params->bailout) << std::endl;
     prnt << "+ Complex plane:" << std::endl;
-    prnt << "+   Im " << params->yl << " " << params->yh << std::endl;
-    prnt << "+   Re " << params->xl << " " << params->xh << std::endl;
+    prnt << "+   Im " << mpfr_get_d(params->yl, MPFR_RNDN) << " " << mpfr_get_d(params->yh, MPFR_RNDN) << std::endl;
+    prnt << "+   Re " << mpfr_get_d(params->xl, MPFR_RNDN) << " " << mpfr_get_d(params->xh, MPFR_RNDN) << std::endl;
     prnt << "+ Image: " << std::to_string(params->xrange) << "x"
          << std::to_string(params->yrange) << std::endl;
     prnt << "+ Zoom: " << std::endl;
-    prnt << "+   Coordinate " << params->xcoord << ", " << params->ycoord
+    prnt << "+   Coordinate " << mpfr_get_d(params->xcoord, MPFR_RNDN) << ", " << mpfr_get_d(params->ycoord, MPFR_RNDN)
          << std::endl;
-    prnt << "+   Level " << params->zoom << "x" << std::endl;
+    prnt << "+   Level " << mpfr_get_d(params->zoom, MPFR_RNDN) << "x" << std::endl;
 
     // TODO: Using a two dimensional vector is unnecessary. Have a look at
     // test_computation.cpp for a better solution.

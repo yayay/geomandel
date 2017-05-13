@@ -52,3 +52,18 @@ std::string Buffwriter::out_file_name(
 
     return filename;
 }
+
+std::string Buffwriter::out_file_name(const std::string &string_pattern,
+                        const std::string &fractal_type,
+                        unsigned int bailout, unsigned int xrange,
+                        unsigned int yrange, mpfr_t zoom,
+                        unsigned int cores, mpfr_t xcoord, mpfr_t ycoord,
+                        mpfr_t z_real_min, mpfr_t z_real_max,
+                        mpfr_t z_ima_min, mpfr_t z_ima_max)
+{
+    return out_file_name(string_pattern, fractal_type, bailout, xrange, yrange,
+                         mpfr_get_d(zoom, MPFR_RNDN), cores, mpfr_get_d(xcoord, MPFR_RNDN),
+                         mpfr_get_d(ycoord, MPFR_RNDN), mpfr_get_d(z_real_min, MPFR_RNDN),
+                         mpfr_get_d(z_real_max, MPFR_RNDN), mpfr_get_d(z_ima_min, MPFR_RNDN),
+                         mpfr_get_d(z_ima_max, MPFR_RNDN));
+}

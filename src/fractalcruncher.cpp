@@ -22,40 +22,78 @@ Fractalcruncher::Fractalcruncher(
     constants::fracbuff &buff, const std::shared_ptr<FractalParameters> &params)
     : buff(buff), params(params)
 {
+    mpfr_init2(x0, constants::arithmetic_precision);
+    mpfr_init2(y0, constants::arithmetic_precision);
+    mpfr_init2(tmp, constants::arithmetic_precision);
+    mpfr_init2(x2, constants::arithmetic_precision);
+    mpfr_init2(y2, constants::arithmetic_precision);
+    mpfr_init2(x_old, constants::arithmetic_precision);
+
+    mpfr_init2(x, constants::arithmetic_precision);
+    mpfr_init2(y, constants::arithmetic_precision);
 }
-Fractalcruncher::~Fractalcruncher() {}
+
+Fractalcruncher::~Fractalcruncher()
+{
+    mpfr_clear(x0);
+    mpfr_clear(y0);
+    mpfr_clear(tmp);
+    mpfr_clear(x2);
+    mpfr_clear(y2);
+    mpfr_clear(x_old);
+
+    mpfr_clear(x);
+    mpfr_clear(y);
+}
+
 std::tuple<unsigned int, double, double> Fractalcruncher::crunch_complex(
-    double x, double y, unsigned int bailout) const
+    mpfr_t x_ori, mpfr_t y_ori, unsigned int bailout)
 {
     // The Fractal algorithm derived from pseudo code
     // TODO: This code gets more and more ugly dependening on how much fractals
     // I try to support.
     unsigned int iterations = 0;
-    double x0 = x;
-    double y0 = y;
+
+    mpfr_set(x, x_ori, MPFR_RNDN);
+    mpfr_set(x0, x_ori, MPFR_RNDN);
+    mpfr_set(y, y_ori, MPFR_RNDN);
+    mpfr_set(y0, y_ori, MPFR_RNDN);
+
     if (params->set_type == constants::FRACTAL::JULIA) {
-        x0 = params->julia_real;
-        y0 = params->julia_ima;
+        mpfr_set(x0, params->julia_real, MPFR_RNDN);
+        mpfr_set(y0, params->julia_ima, MPFR_RNDN);
     }
-    // std::cout << "zO(" << x << ", " << y << ")" << std::endl;
-    while (x * x + y * y <= 4.0 && iterations < bailout) {
+
+    mpfr_mul(x2, x, x, MPFR_RNDN);
+    mpfr_mul(y2, y, y, MPFR_RNDN);
+    mpfr_add(tmp, x2, y2, MPFR_RNDN);
+    while (mpfr_cmp_d(tmp, 4.0) <= 0 && iterations < bailout) {
         if (params->set_type == constants::FRACTAL::BURNING_SHIP) {
-            x = std::fabs(x);
-            y = std::fabs(y);
+            mpfr_abs(x, x, MPFR_RNDN);
+            mpfr_abs(y, y, MPFR_RNDN);
         }
-        double x_old = x;
-        x = x * x - y * y + x0;
+        mpfr_set(x_old, x, MPFR_RNDN);
+        mpfr_sub(x, x2, y2, MPFR_RNDN);
+        mpfr_add(x, x, x0, MPFR_RNDN);
+
+        mpfr_mul(tmp, x_old, y, MPFR_RNDN);
         if (params->set_type == constants::FRACTAL::TRICORN) {
-            y = -2 * x_old * y + y0;
+            mpfr_mul_si(tmp, tmp, -2L, MPFR_RNDN);
         } else {
-            y = 2 * x_old * y + y0;
+            mpfr_mul_si(tmp, tmp, 2L, MPFR_RNDN);
         }
+        mpfr_add(y, tmp, y0, MPFR_RNDN);
 
         iterations++;
+
+        mpfr_mul(x2, x, x, MPFR_RNDN);
+        mpfr_mul(y2, y, y, MPFR_RNDN);
+        mpfr_add(tmp, x2, y2, MPFR_RNDN);
     }
-    // std::cout << "Iter: " << iterations << " zE(" << x << ", " << y << ")"
-    //<< std::endl;
-    return std::make_tuple(iterations, x, y);
+
+    return std::make_tuple(iterations,
+                           mpfr_get_d(params->x, MPFR_RNDN),
+                           mpfr_get_d(params->y, MPFR_RNDN));
 }
 
 constants::Iterations Fractalcruncher::iterations_factory(unsigned int its,

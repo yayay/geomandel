@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <tuple>
 #include <cmath>
+#include <mpfr.h>
 
 #include "global.h"
 #include "fractalparams.h"
@@ -34,7 +35,6 @@ public:
 
     virtual void fill_buffer() = 0;
 
-protected:
     constants::fracbuff &buff;
     const std::shared_ptr<FractalParameters> &params;
 
@@ -56,7 +56,7 @@ protected:
      * the Complex Number.
      */
     std::tuple<unsigned int, double, double> crunch_complex(
-        double x, double y, unsigned int bailout) const;
+        mpfr_t x_ori, mpfr_t y_ori, unsigned int bailout);
     /**
      * @brief Returns an Iterations object based on the coloring algorithm
      *
@@ -71,6 +71,10 @@ protected:
                                              double Zy) const;
 
 private:
+    // XXX - store temporary data, so that we don't have to allocate
+    // on the heap everytime crunch_complex is called
+    mpfr_t x0, y0, tmp, x2, y2, x_old;
+    mpfr_t x, y;
 };
 
 #endif /* ifndef FRACTALCRUNCHER_H */

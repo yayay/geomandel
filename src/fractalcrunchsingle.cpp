@@ -27,23 +27,31 @@ Fractalcrunchsingle::Fractalcrunchsingle(
 Fractalcrunchsingle::~Fractalcrunchsingle() {}
 void Fractalcrunchsingle::fill_buffer()
 {
-    double x = this->params->x;
-    double y = this->params->y;
+    mpfr_t x, y;
+
+    mpfr_init2(x, constants::arithmetic_precision);
+    mpfr_init2(y, constants::arithmetic_precision);
+
+    mpfr_set(x, this->params->x, MPFR_RNDN);
+    mpfr_set(y, this->params->y, MPFR_RNDN);
 
     // calculate pixel by pixel
     for (unsigned int iy = 0; iy < this->params->yrange; iy++) {
         for (unsigned int ix = 0; ix < this->params->xrange; ix++) {
-            auto crunched_mandel =
-                this->crunch_complex(x, y, this->params->bailout);
+            auto crunched_mandel = this->crunch_complex(x, y, this->params->bailout);
 
             unsigned int its = std::get<0>(crunched_mandel);
             double Zx = std::get<1>(crunched_mandel);
             double Zy = std::get<2>(crunched_mandel);
+
             buff[iy][ix] = this->iterations_factory(its, Zx, Zy);
 
-            x += this->params->xdelta;
+            mpfr_add(x, x, this->params->xdelta, MPFR_RNDN);
         }
-        y += this->params->ydelta;
-        x = this->params->xl;
+        mpfr_add(y, y, this->params->ydelta, MPFR_RNDN);
+        mpfr_set(x, this->params->xl, MPFR_RNDN);
     }
+
+    mpfr_clear(x);
+    mpfr_clear(y);
 }

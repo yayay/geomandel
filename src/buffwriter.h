@@ -116,6 +116,14 @@ protected:
                               unsigned int cores, double xcoord, double ycoord,
                               double z_real_min, double z_real_max,
                               double z_ima_min, double z_ima_max);
+
+     std::string out_file_name(const std::string &string_pattern,
+                              const std::string &fractal_type,
+                              unsigned int bailout, unsigned int xrange,
+                              unsigned int yrange, mpfr_t zoom,
+                              unsigned int cores, mpfr_t xcoord, mpfr_t ycoord,
+                              mpfr_t z_real_min, mpfr_t z_real_max,
+                              mpfr_t z_ima_min, mpfr_t z_ima_max);
 };
 
 #endif /* ifndef BUFFWRITER_H */

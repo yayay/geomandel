@@ -22,15 +22,15 @@ Fractalcruncher::Fractalcruncher(
     constants::fracbuff &buff, const std::shared_ptr<FractalParameters> &params)
     : buff(buff), params(params)
 {
-    mpfr_init2(x0, constants::arithmetic_precision);
-    mpfr_init2(y0, constants::arithmetic_precision);
-    mpfr_init2(tmp, constants::arithmetic_precision);
-    mpfr_init2(x2, constants::arithmetic_precision);
-    mpfr_init2(y2, constants::arithmetic_precision);
-    mpfr_init2(x_old, constants::arithmetic_precision);
+    mpfr_init2(x0, params->arithmetic_precision);
+    mpfr_init2(y0, params->arithmetic_precision);
+    mpfr_init2(tmp, params->arithmetic_precision);
+    mpfr_init2(x2, params->arithmetic_precision);
+    mpfr_init2(y2, params->arithmetic_precision);
+    mpfr_init2(x_old, params->arithmetic_precision);
 
-    mpfr_init2(x, constants::arithmetic_precision);
-    mpfr_init2(y, constants::arithmetic_precision);
+    mpfr_init2(x, params->arithmetic_precision);
+    mpfr_init2(y, params->arithmetic_precision);
 }
 
 Fractalcruncher::~Fractalcruncher()

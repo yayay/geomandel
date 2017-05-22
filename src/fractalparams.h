@@ -52,6 +52,7 @@ class FractalParameters {
     std::string fractal_type;
 
     unsigned int cores;
+    mpfr_prec_t arithmetic_precision;
 
     constants::COL_ALGO col_algo;
 
@@ -64,6 +65,7 @@ class FractalParameters {
                       unsigned int bailout, mpfr_t zoom, mpfr_t xcoord,
                       mpfr_t ycoord, std::string image_base,
                       std::string fractal_type, unsigned int cores,
+                      mpfr_prec_t arithmetic_precision,
                       constants::COL_ALGO col_algo);
 
     FractalParameters(constants::FRACTAL set_type, unsigned int xrange,
@@ -72,10 +74,11 @@ class FractalParameters {
                       unsigned int bailout, double zoom, double xcoord,
                       double ycoord, std::string image_base,
                       std::string fractal_type, unsigned int cores,
+                      mpfr_prec_t arithmetic_precision,
                       constants::COL_ALGO col_algo);
 
     private:
-    void allocate();
+    void allocate(mpfr_prec_t arithmetic_precision);
     void compute();
 };
 #endif /* ifndef FRACTALPARAMS_H */

@@ -29,8 +29,8 @@ void Fractalcrunchsingle::fill_buffer()
 {
     mpfr_t x, y;
 
-    mpfr_init2(x, constants::arithmetic_precision);
-    mpfr_init2(y, constants::arithmetic_precision);
+    mpfr_init2(x, params->arithmetic_precision);
+    mpfr_init2(y, params->arithmetic_precision);
 
     mpfr_set(x, this->params->x, MPFR_RNDN);
     mpfr_set(y, this->params->y, MPFR_RNDN);

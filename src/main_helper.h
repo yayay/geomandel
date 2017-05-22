@@ -117,6 +117,10 @@ inline void init_mandel_parameters(std::shared_ptr<FractalParameters> &params,
         if (parser.count("m"))
             cores = parser["m"].as<unsigned int>();
 
+        unsigned int arithmetic_precision = 64;
+        if(parser.count("n"))
+            arithmetic_precision = parser["n"].as<unsigned int>();
+
         constants::COL_ALGO col_algo;
         unsigned int calgo = parser["col-algo"].as<unsigned int>();
         switch (calgo) {
@@ -139,7 +143,7 @@ inline void init_mandel_parameters(std::shared_ptr<FractalParameters> &params,
             set_type, xrange, xl, xh, yrange, yl, yh, julia_real, julia_ima,
             bailout, zoomlvl, xcoord, ycoord,
             parser["image-file"].as<std::string>(), fractal_type, cores,
-            col_algo);
+            arithmetic_precision, col_algo);
     } catch (const cxxopts::missing_argument_exception &ex) {
         std::cerr << "Missing argument \n  " << ex.what() << std::endl;
     } catch (const cxxopts::OptionParseException &ex) {
@@ -157,6 +161,8 @@ inline void configure_command_line_parser(cxxopts::Options &p)
         ("help", "Show this help")
         ("m,multi", "Use multiple cores",
          cxxopts::value<unsigned int>()->implicit_value("2"))
+        ("n,precision", "Number of bit of precision used for calculation",
+        cxxopts::value<unsigned int>()->implicit_value("64"))
         ("q,quiet", "Don't write to stdout (This does not influence stderr)");
 
     p.add_options("Fractal")

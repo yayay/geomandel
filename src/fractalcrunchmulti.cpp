@@ -38,8 +38,8 @@ void Fractalcrunchmulti::fill_buffer()
     // thread pool as separate job. The id parameter of the lambda function
     // represents the thread id.
 
-    mpfr_init2(x, constants::arithmetic_precision);
-    mpfr_init2(y, constants::arithmetic_precision);
+    mpfr_init2(x, params->arithmetic_precision);
+    mpfr_init2(y, params->arithmetic_precision);
 
     mpfr_set(x, this->params->x, MPFR_RNDN);
     mpfr_set(y, this->params->y, MPFR_RNDN);
@@ -51,9 +51,9 @@ void Fractalcrunchmulti::fill_buffer()
             mpfr_t xpass, ypass, tmp;
             Fractalcrunchsingle crunchthis(this->buff, this->params);
 
-            mpfr_init2(xpass, constants::arithmetic_precision);
-            mpfr_init2(ypass, constants::arithmetic_precision);
-            mpfr_init2(tmp, constants::arithmetic_precision);
+            mpfr_init2(xpass, params->arithmetic_precision);
+            mpfr_init2(ypass, params->arithmetic_precision);
+            mpfr_init2(tmp, params->arithmetic_precision);
 
             mpfr_set(xpass, x, MPFR_RNDN);
             mpfr_mul_si(tmp, this->params->ydelta, iy, MPFR_RNDN);

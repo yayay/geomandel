@@ -24,6 +24,7 @@ FractalParameters::FractalParameters(constants::FRACTAL set_type, unsigned int x
                     unsigned int bailout, mpfr_t zoom, mpfr_t xcoord,
                     mpfr_t ycoord, std::string image_base,
                     std::string fractal_type, unsigned int cores,
+                    mpfr_prec_t arithmetic_precision,
                     constants::COL_ALGO col_algo)
     : set_type(set_type),
         xrange(xrange),
@@ -32,9 +33,10 @@ FractalParameters::FractalParameters(constants::FRACTAL set_type, unsigned int x
         image_base(image_base),
         fractal_type(fractal_type),
         cores(cores),
+        arithmetic_precision(arithmetic_precision),
         col_algo(col_algo)
 {
-    allocate();
+    allocate(arithmetic_precision);
     mpfr_set(this->xl, xl, MPFR_RNDN);
     mpfr_set(this->xh, xh, MPFR_RNDN);
     mpfr_set(this->yl, yl, MPFR_RNDN);
@@ -55,6 +57,7 @@ FractalParameters::FractalParameters(constants::FRACTAL set_type, unsigned int x
                     unsigned int bailout, double zoom, double xcoord,
                     double ycoord, std::string image_base,
                     std::string fractal_type, unsigned int cores,
+                    mpfr_prec_t arithmetic_precision,
                     constants::COL_ALGO col_algo)
     : set_type(set_type),
         xrange(xrange),
@@ -63,9 +66,10 @@ FractalParameters::FractalParameters(constants::FRACTAL set_type, unsigned int x
         image_base(image_base),
         fractal_type(fractal_type),
         cores(cores),
+        arithmetic_precision(arithmetic_precision),
         col_algo(col_algo)
 {
-    allocate();
+    allocate(arithmetic_precision);
     mpfr_set_d(this->xl, xl, MPFR_RNDN);
     mpfr_set_d(this->xh, xh, MPFR_RNDN);
     mpfr_set_d(this->yl, yl, MPFR_RNDN);
@@ -78,22 +82,22 @@ FractalParameters::FractalParameters(constants::FRACTAL set_type, unsigned int x
     compute();
 }
 
-void FractalParameters::allocate()
+void FractalParameters::allocate(mpfr_prec_t arithmetic_precision)
 {
-    mpfr_init2(this->xl, constants::arithmetic_precision);
-    mpfr_init2(this->xh, constants::arithmetic_precision);
-    mpfr_init2(this->yl, constants::arithmetic_precision);
-    mpfr_init2(this->yh, constants::arithmetic_precision);
-    mpfr_init2(this->julia_real, constants::arithmetic_precision);
-    mpfr_init2(this->julia_ima, constants::arithmetic_precision);
-    mpfr_init2(this->zoom, constants::arithmetic_precision);
-    mpfr_init2(this->xcoord, constants::arithmetic_precision);
-    mpfr_init2(this->ycoord, constants::arithmetic_precision);
+    mpfr_init2(this->xl, arithmetic_precision);
+    mpfr_init2(this->xh, arithmetic_precision);
+    mpfr_init2(this->yl, arithmetic_precision);
+    mpfr_init2(this->yh, arithmetic_precision);
+    mpfr_init2(this->julia_real, arithmetic_precision);
+    mpfr_init2(this->julia_ima, arithmetic_precision);
+    mpfr_init2(this->zoom, arithmetic_precision);
+    mpfr_init2(this->xcoord, arithmetic_precision);
+    mpfr_init2(this->ycoord, arithmetic_precision);
 
-    mpfr_init2(this->x, constants::arithmetic_precision);
-    mpfr_init2(this->y, constants::arithmetic_precision);
-    mpfr_init2(this->xdelta, constants::arithmetic_precision);
-    mpfr_init2(this->ydelta, constants::arithmetic_precision);
+    mpfr_init2(this->x, arithmetic_precision);
+    mpfr_init2(this->y, arithmetic_precision);
+    mpfr_init2(this->xdelta, arithmetic_precision);
+    mpfr_init2(this->ydelta, arithmetic_precision);
 }
 
 void FractalParameters::compute()

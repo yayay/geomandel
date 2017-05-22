@@ -35,8 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace constants
 {
 
-const mpfr_prec_t arithmetic_precision = 64;
-
 enum OUT_FORMAT {
     IMAGE_PNM_BW,
     IMAGE_PNM_GREY,

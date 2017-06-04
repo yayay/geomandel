@@ -50,7 +50,6 @@ set (MAIN_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchmulti.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchsingle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalparams.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/fractalzoom.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/printer.cpp
 )
 
@@ -68,7 +67,6 @@ set (MAIN_HEADER
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchmulti.h
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalcrunchsingle.h
     ${CMAKE_CURRENT_SOURCE_DIR}/fractalparams.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/fractalzoom.h
     ${CMAKE_CURRENT_SOURCE_DIR}/printer.h
 )
 

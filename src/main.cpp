@@ -40,8 +40,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "csvwriter.h"
 
-#include "fractalzoom.h"
-
 #include "fractalcrunchsingle.h"
 #include "fractalcrunchmulti.h"
 
